@@ -31,27 +31,28 @@ const LSP8Table: React.FC<Props> = ({
           vaultAddress as string, //checking in the useEffect
           web3Provider,
         );
-        if (lsp8Assets instanceof Array) {
-          if (vaultAddress) {
-            //find vault asset
-            const vaultAsset = vaultsAssets.find(
-              (vaultAsset) => vaultAsset.vaultAddress === assetAddress,
-            );
-            if (vaultAsset) {
-              vaultAsset.lsp8Assets = lsp8Assets;
-              setVaultsAssets((prev) => [...prev, vaultAsset]);
-            } else {
-              //create vault asset
-              const newVaultAsset = {
-                vaultAddress: assetAddress,
-                lsp7Assets: [],
-                lsp8Assets: lsp8Assets,
-              };
-              setVaultsAssets((prev) => [...prev, newVaultAsset]);
-            }
-          }
-          setLsp8s((prev) => [...prev, ...lsp8Assets]);
+        if (!lsp8Assets) {
+          return;
         }
+        if (vaultAddress) {
+          //find vault asset
+          const vaultAsset = vaultsAssets.find(
+            (vaultAsset) => vaultAsset.vaultAddress === assetAddress,
+          );
+          if (vaultAsset) {
+            vaultAsset.lsp8Assets = lsp8Assets;
+            setVaultsAssets((prev) => [...prev, vaultAsset]);
+          } else {
+            //create vault asset
+            const newVaultAsset = {
+              vaultAddress: assetAddress,
+              lsp7Assets: [],
+              lsp8Assets: lsp8Assets,
+            };
+            setVaultsAssets((prev) => [...prev, newVaultAsset]);
+          }
+        }
+        setLsp8s((prev) => [...prev, ...lsp8Assets]);
       }),
     );
 
